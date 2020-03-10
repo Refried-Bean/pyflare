@@ -7,4 +7,4 @@ If you are a Redditor please go give u/TheFirsh some tasty tasty karma.
 
  Cloudflare will host your DNS for free, on top of a whole heap of other benefits, and they have a really good API for updating DNS records. The idea is that you run this script like you would a dynamic DNS client - it's python so entirely cross platform and uses minimal and very common libraries.
  
-See the Wiki for how to use it.
+See the [Wiki](https://github.com/Refried-Bean/pyflare/wiki) for how to use it.
