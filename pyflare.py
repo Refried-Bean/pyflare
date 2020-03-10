@@ -3,14 +3,13 @@ import json, os
 import requests
 
 class Cloudflare:
-    def __init__(self, email, key="", token=""):
+    def __init__(self, email="", key="", token=""):
         self.endpoint = "https://api.cloudflare.com/client/v4"
         if len(token)!=0:
             bearer = str("Bearer " + token)
             self.headers = {'Authorization': bearer, 'Content-Type': 'application/json'}
-        elif len(key)!=0 :
+        elif (len(key)!=0) and (len(email)!=0):
             self.headers = {'X-Auth-Email': email, 'X-Auth-Key': key, 'Content-Type': 'application/json'}
-
     def getmyip(self):
         r = requests.get("https://api.simonpainter.com/ip/")
         return r.text
@@ -49,14 +48,20 @@ if __name__ == '__main__':
         with open(os.path.join(__location__,'config.json')) as json_data_file:
             config = json.load(json_data_file)
             for item in config['items']:
-                email = item['email']
-                key = item['key']
-                token = item['token']
+                email = ""
+                key = ""
+                token = ""
+                if 'email' in item.keys():
+                    email = item['email']
+                if 'key' in item.keys():
+                    key = item['key']
+                if 'token' in item.keys():
+                    token = item['token']
                 zone = item['zone']
                 record = item['record']
                 ttl = item['ttl']
                 proxied = item['proxied']
-                cf = Cloudflare(email, key=key,token=token)
+                cf = Cloudflare(email=email, key=key,token=token)
                 print(cf(zone,record,ttl, proxied))
     except IOError:
         print("Unable to find config file.")
